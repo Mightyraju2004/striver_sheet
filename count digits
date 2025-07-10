@@ -1,0 +1,16 @@
+class Solution {
+  public:
+    // Function to count the number of digits in n that evenly divide n
+    int evenlyDivides(int n) {
+        // code here
+        int cnt=0;
+        if(n==0) return 1;//edge case
+        int real=n;
+        while(n!=0){
+            int digit=n%10;
+            if(digit!=0 && real%digit==0) cnt++;//We ignore 0 in this context because mathematically, you can't divide by zero
+            n/=10;
+        }
+        return cnt;
+        }
+};
