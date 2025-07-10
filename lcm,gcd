@@ -11,7 +11,7 @@ class Solution {
     
     vector<int> lcmAndGcd(int a, int b) {
         int gcd = findGCD(a, b);
-        int lcm = (a*b)/gcd;//lcm*gcd=a*b;//pehle above line i.e above call execute hoga then i waali line pe aayenge
+        int lcm = (a*b)/gcd;//lcm*gcd=a*b;//pehle above line i.e above call execute hoga then is waali line pe aayenge
         return {lcm, gcd};
     }
 };
