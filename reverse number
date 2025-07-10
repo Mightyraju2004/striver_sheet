@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int reverse(int x) {
+        long long reversed=0;
+        while(x!=0){
+            int digit=x%10;//extraction of last digit from x
+            reversed=10*reversed+digit;//add that digit 
+            x=x/10;// remove the last digit from x
+        }
+         // Check for overflow
+           if (reversed > INT_MAX || reversed < INT_MIN) {//we have to add this condition because return type of fxn is int so we can't return long long value of reversed which are greater than int max aur less than int min.
+                return 0;
+           }
+
+
+        // Return reversed as int
+        return static_cast<int>(reversed);//iski jagah return reversed bhi likh skte hai  
+       // return reversed; // Since overflow is already handled, this should work
+        //return static_cast<int>(reversed);: Ye line reversed number ko int type me cast karke safe return karti hai.
+    
+    //but we cant write return reversed directly without adding condition of handling of overflow condition because return type of fxn is int type  and reversed is long long type value
+        
+        }
+        
+        
+    
+    
+};
