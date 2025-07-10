@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int totalTilt = 0;
+
+    int dfs(TreeNode* node) {
+        if (!node) return 0;
+
+        int left = dfs(node->left);   // left subtree sum
+        int right = dfs(node->right); // right subtree sum
+
+        totalTilt += abs(left - right); // current node's tilt
+        return left + right + node->val; // subtree sum for parent
+    }
+
+    int findTilt(TreeNode* root) {
+        dfs(root);
+        return totalTilt;
+    }
+};
