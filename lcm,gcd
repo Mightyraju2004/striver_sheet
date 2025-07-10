@@ -1,0 +1,17 @@
+class Solution {
+  public:
+    int findGCD(int a, int b) {
+        while (b != 0) {//a%0 is undefined thats why we put this condition
+            int temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return a;
+    }
+    
+    vector<int> lcmAndGcd(int a, int b) {
+        int gcd = findGCD(a, b);
+        int lcm = (a*b)/gcd;//lcm*gcd=a*b;//pehle above line i.e above call execute hoga then i waali line pe aayenge
+        return {lcm, gcd};
+    }
+};
