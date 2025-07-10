@@ -17,3 +17,36 @@ public:
         return totalTilt;
     }
 };
+
+//left subtree ka sum--------------------------------------->
+class Solution {
+public:
+    int getLeftSubtreeSum(TreeNode* root) {
+        return dfs(root->left); // root ke left subtree ka total sum
+    }
+
+    int dfs(TreeNode* node) {
+        if (!node) return 0;
+        return node->val + dfs(node->left) + dfs(node->right); // pura subtree ka sum
+    }
+};
+//similiar code for right subtree ka sum bs usme upar return dfs(root->right) aajayega
+
+//code for left subtree ka sum+topmost node value--------------------->
+class Solution {
+public:
+    int getLeftSideSum(TreeNode* root) {
+        if (!root) return 0;
+
+        int leftSubtreeSum = dfs(root->left); // sum of left subtree
+        int rootVal = root->val;              // root node value
+
+        return leftSubtreeSum + rootVal; // full left-side contribution including root
+    }
+
+    int dfs(TreeNode* node) {
+        if (!node) return 0;
+        return node->val + dfs(node->left) + dfs(node->right);
+    }
+};
+
