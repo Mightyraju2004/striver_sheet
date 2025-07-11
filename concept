@@ -1,0 +1,81 @@
+In C++, most of the features from the Standard Library (like cout, cin, vector, string, etc.) are kept inside a container called a namespace — specifically, the std namespace.(we write std::cout,std::endl if we not use using namespace std)
+Writing using namespace std; tells the compiler: "Bhai, ab se agar koi standard library ka feature use ho, toh mujhe baar-baar std:: likhne ki zarurat na pade."
+  
+concept------=>  <iostream> ek header file hai jo input-output ke tools provide karti hai — jaise:
+cin → user se input lena
+cout → screen pe output dena
+
+concept------=> #include ka main kaam hota hai:
+✅ Header file ko tumhare code ke saath jodna, taaki us headerfile ke andar likhe hue tools, functions, aur classes tum use kar sako.
+  ex=#include <vector>                                                                    
+Isse tum vector naam ka data type use kar sakte ho.
+Vector is like a dynamic array — matlab size badhta-ghatta sakta hai runtime pe.
+Example:
+cpp
+#include <vector>
+vector<int> nums;
+nums.push_back(10);
+
+ex=2.#include <string>
+Isse tum string data type use kar sakte ho.
+Built-in C++ ka class hai jo text data store karta hai.
+Example:
+cpp
+#include <string>
+string name = "Shubhanshu";
+
+NOTE---->> #include<bits/stdc++.h> includes all the libraries whatever libraries are in c++.so hume #include<iostream><#include<vector> ye sab likhna nahi 
+Compile karna = Code ko Machine Language mein badalna
+
+concept------->
+🧮 Compile Time – Jab Code Ban Raha Hota Hai
+Ye woh waqt hota hai jab:
+
+Tumhara C++ code compiler ke through process ho raha hota hai.
+
+Errors like syntax mistakes (galat spelling, missing semicolon, etc.) yahin detect hote hain.
+
+Code ko machine language mein convert kiya jaata hai (binary format).
+
+🛠️ Example Error:
+cpp
+int x
+cout << x;
+
+– Missing semicolon → Compile time error
+
+concept------>
+  Run Time – Jab Code Chal Raha Hota Hai
+Ye woh waqt hota hai jab:
+
+Tumhara program execute ho raha hota hai.
+
+User input liya jaa raha hai, loops chal rahe hain, output aa raha hai.
+
+Yahan logical errors ya unexpected conditions detect hote hain — like divide by zero or invalid input.
+
+💥 Example Run-time error:
+
+cpp
+int a = 5, b = 0;
+cout << a / b; // Division by zero → Run time crash
+
+concept----.Library =Aisa code jo pehle se kisi ne likh diya hai, aur tum usse directly apne program mein use kar sakte ho — bina khud dobara likhne ki mehnat kiye
+Example:
+Tumhe sorting karni hai → C++ mein sort() function already library mein hota hai.
+
+Tum bas #include <algorithm> likh ke wo function use kar sakte ho.
+
+🧪 Real-life example:
+Socho library ek toolbox hai 🧰 Tum bolte ho:
+
+"Mujhe screwdriver chahiye." Toh tum toolbox khol ke screwdriver nikaal lete ho — bina banaye direct use
+
+Standard Libraries (built-in C++)
+Library Name	Purpose	ExampleUse
+<iostream>	Input/output	cin, cout
+<vector>	Dynamic array (STL container)	vector<int> v;
+<string>	Text handling	string name = "Shubhanshu";
+<algorithm>	Common algorithms	sort(v.begin(), v.end());
+<cmath>	Math functions	sqrt(x), pow(x, y)
+<map>	Key-value data structure	map<string, int> m;
