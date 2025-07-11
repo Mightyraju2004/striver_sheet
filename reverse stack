@@ -1,0 +1,22 @@
+class Solution {
+    static void reverse(Stack<Integer> s) {
+        if (!s.isEmpty()) {//if s.empty()==NUll then we return(base case)
+            int top = s.pop();
+            reverse(s);
+            insert(s, top);//pehle above call chlegi then ye chlega
+        }
+    }
+
+    static void insert(Stack<Integer> s, int x) {
+        if (s.isEmpty()) {
+            s.push(x);
+        } else {
+            int top1 = s.pop();
+            insert(s, x);
+            s.push(top1);//pehle above call chlegi then ispe aayenge
+        }
+    }
+}
+//concept=pehle saare elemnts ko pop karo jab tak stack khaali na ho
+//uske baad insertion start karo bottom mai
+//insertion mai jab stack empty ho to uske andar push kardo element ko
