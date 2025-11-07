@@ -1,0 +1,29 @@
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>>res;
+        if(root==NULL) return res;//write this because null is also consider as element so if we not write this then while(!que.empty()) will run and gives RUN time error
+        queue<TreeNode*>que;
+        que.push(root);
+        
+        while(!que.empty()){
+            int n=que.size();
+             vector<int>temp={};//you can write only temp because vo waapis declare hoga dusre iteration mai
+/*
+Dono ka matlab ek hi hai:
+vector<int> temp; (Default initialization) -> Ek naya, khaali (empty) vector banata hai.
+vector<int> temp = {}; (List initialization) -> Ye bhi ek naya, khaali vector banata hai.
+*/
+            while(n--){
+                TreeNode* node=que.front();
+                que.pop();
+                if(node->left!=NULL) que.push(node->left);
+                if(node->right!=NULL) que.push(node->right);
+                temp.push_back(node->val);
+            }
+            res.push_back(temp);
+        }
+        return res;
+    }
+https://youtu.be/zuQ6TGf31N0?si=sAl98ZlcJDKoBFVr
+};
