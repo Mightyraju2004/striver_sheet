@@ -50,4 +50,7 @@ void preorder(TreeNode* root,int level,vector<int>&res){
           preorder(root,1,res);//1 is level
           return res;
     }
-};
+
+};/*Aapka input jo TreeNode* root hai usmein bahut saare nodes store nahin hain.
+Uske andar sirf ek cheez store hai: topmost node ka address phir us topmost node ke address ke through hum aur nodes visit karte hain.*/
+
