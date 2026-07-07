@@ -1,0 +1,38 @@
+class Solution {
+public:
+int n;
+vector<vector<int>>result;
+void solve(int idx,vector<int>&temp,vector<int>&candidates,int target){
+    if(target==0 ){
+        result.push_back(temp);
+        return;
+    }
+     if (idx==candidates.size() || target < 0) {
+            return;
+        }
+    
+    // --- CASE 1: TAKE ---
+        temp.push_back(candidates[idx]);
+        // idx + 1 par bhej rahe hain kyunki ek element ek hi baar use ho sakta hai
+        solve(idx + 1, temp, candidates, target - candidates[idx]);
+        temp.pop_back(); // Backtrack
+
+        // --- CASE 2: NOT TAKE (With Duplicate Skip) ---
+        // Agar hum candidates[idx] ko nahi le rahe hain, 
+        // toh uske aage jitne bhi same elements hain, un sabko skip kar do!
+        while (idx + 1 < candidates.size() && candidates[idx] == candidates[idx + 1]) {
+            idx++; // Index ko aage badhate jao jab tak same element mil raha hai
+        }
+        
+        // Ab hum ek bilkul naye element par khade hain, yahan se call lagao
+        solve(idx + 1, temp, candidates, target);
+}
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        // Step 1: Sorting sabse zaroori hai duplicates dhoodhne ke liye
+        sort(candidates.begin(), candidates.end());
+        n=candidates.size();
+        vector<int>temp;
+        solve(0,temp,candidates,target);
+        return result;
+    }
+};
