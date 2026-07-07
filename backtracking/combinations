@@ -1,1 +1,22 @@
-
+class Solution {
+public:
+vector<vector<int>>res;
+void solve(int start,int k,int n,vector<int>&temp){
+    if(k==0){
+        res.push_back(temp);
+        return;
+    }
+    if(start>n) return;
+    //take---------->
+    temp.push_back(start);//take
+    solve(start+1,k-1,n,temp);//explore
+    temp.pop_back();//non take
+    //not take---------> 
+    solve(start+1,k,n,temp);//explore//pop kiya hai to abhi k elements hi uthaaane hai -1 nahi krna k mai
+}
+    vector<vector<int>> combine(int n, int k) {
+       vector<int>temp;
+      solve(1,k,n,temp);
+      return res;  
+    }
+};
