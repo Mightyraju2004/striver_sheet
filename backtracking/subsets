@@ -1,0 +1,43 @@
+class Solution {
+public:
+
+    vector<vector<int>> res;
+    int n;
+
+    void solve(vector<int>& temp, vector<int>& nums, int idx){
+
+        // base case
+        if(idx >= n){
+            res.push_back(temp);
+            return;
+        }
+
+        // ---------------- TAKE(include current element(nums[idx])) -------------------
+
+        // current element include karo
+        temp.push_back(nums[idx]);//do something
+
+        // next index pe jao
+        solve(temp, nums, idx + 1);//explore
+
+        // ---------------- NOT TAKE(not include current element(nums[idx])) ----------------
+
+        // backtrack:
+        // jo current element include kiya tha usko hata do
+        temp.pop_back();//undo the effect
+
+        // current element ko include mat karo aur next index pe jao
+        solve(temp, nums, idx + 1);
+    }
+
+    vector<vector<int>> subsets(vector<int>& nums) {
+
+        n = nums.size();
+
+        vector<int> temp;
+
+        solve(temp, nums, 0);
+
+        return res;
+    }
+};
