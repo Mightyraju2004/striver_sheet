@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<vector<int>> res;
+
+    void solve(int index, int target, vector<int>& candidates, vector<int>& temp) {
+        // Base Case 1: Agar target 0 ho gaya, toh result mil gaya
+        if (target == 0) {
+            res.push_back(temp);
+            return;
+        }
+
+        // Base Case 2: Agar index boundary cross kar gaya ya target negative ho gaya
+        if (index == candidates.size() || target < 0) {
+            return;
+        }
+
+        // 1. PICK the current element 
+        // (index same rakhenge kyunki same element baar-baar le sakte hain)
+        temp.push_back(candidates[index]);
+        solve(index, target - candidates[index], candidates, temp);
+
+        // 2. NON-PICK (Backtrack)
+        // (Element ko nikaalo aur agle index par jao)
+        temp.pop_back();
+        solve(index + 1, target, candidates, temp);
+    }
+
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<int> temp;
+        solve(0, target, candidates, temp);
+        return res;
+    }
+};
