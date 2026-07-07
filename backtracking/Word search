@@ -1,12 +1,11 @@
 class Solution {
 public:
-int m;
-int n;
-int l;
+int m,n,l;
 vector<vector<int>>directions={{-1,0},{0,-1},{0,1},{1,0}};
 bool find(vector<vector<char>>&board,int i,int j,int idx,string &word){
     if(idx>=l) return true;
-    if(i<0 || j<0 || i>=m ||j>=n || board[i][j]!=word[idx]) return false;
+    if(i<0 || j<0 || i>=m ||j>=n || board[i][j]=='$') return false;
+    if(board[i][j]!=word[idx]) return false;
     char temp=board[i][j];
     board[i][j]='$';//visited
 
