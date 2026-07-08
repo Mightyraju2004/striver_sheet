@@ -1,0 +1,37 @@
+class Solution {
+public:
+    vector<vector<int>> result;
+
+    void solve(int i, int k, int n, vector<int>& temp) {
+        // Base Case 1: Agar sum 'n' zero ho gaya aur humne exactly 'k' elements chun liye
+        if (n == 0 && k == 0) {
+            result.push_back(temp);
+            return;
+        }
+
+        // Base Case 2: Pruning (Khatra rokna)
+        // Agar sum negative ho gaya, ya elements k khatam ho gaye, ya hum 9 se aage nikal gaye
+        if (n < 0 || k < 0 || i > 9) {
+            return;
+        }
+
+        // Loop hamesha 'i' se lekar 9 tak chalega (kyunki sirf 1-9 digits allowed hain)
+        for (int num = i; num <= 9; num++) {
+            // 1. DO: Current number ko temporary list mein daalo
+            temp.push_back(num);
+
+            // 2. RECURSE: Agle number par jao (num + 1), ek element kam karo (k - 1), aur sum ghatao (n - num)//explore
+            solve(num + 1, k - 1, n - num, temp);
+
+            // 3. UNDO: Backtrack karo (hatao) taaki dusra combination ban sake
+            temp.pop_back();
+        }
+    }
+
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<int> temp;
+        // 1 se shuru karenge kyunki digits 1 se 9 tak allowed hain
+        solve(1, k, n, temp);
+        return result;
+    }
+};
