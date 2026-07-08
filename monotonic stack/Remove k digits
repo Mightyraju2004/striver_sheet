@@ -1,0 +1,29 @@
+class Solution {
+public:
+    string removeKdigits(string num, int k) {
+        int n=num.length();
+        string result="";//string works as stack
+        if(n==k) return "0";
+        
+        for(int i=0;i<n;i++){
+          while(result.length()>0 && (result.back()>num[i]) && k>0){//result.back() is st.top()
+            result.pop_back();//st.pop();
+            k--;
+          }
+          // Leading zero avoid
+            if (result.empty() && num[i] != '0')
+                result.push_back(num[i]);
+            else if (!result.empty())
+                result.push_back(num[i]);
+        }
+        
+        while(k>0 && result.length()>0){//ex=suppose num is 12345.in this case humne kisi ko delete hi nhi kiya hoga sirf push kiya hoga
+            result.pop_back();//pop the k top element from stack
+            k--;
+        }
+        if(result==""){
+            return "0";
+        }
+    return result;
+    }
+};
