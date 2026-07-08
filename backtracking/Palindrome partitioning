@@ -29,13 +29,13 @@ public:
         
         for(int i = idx; i<n; i++) {
             
-            if(isPalindrome(s, idx, i)) {
+            if(isPalindrome(s, idx, i)) {//check s is panlindrome from idx to i th index
                 
-                curr.push_back(s.substr(idx, i-idx+1));
+                curr.push_back(s.substr(idx, i-idx+1));//do something
                 
-                backtrack(s, i+1, curr, result);
+                backtrack(s, i+1, curr, result);//explore
                 
-                curr.pop_back();
+                curr.pop_back();//backtrack
                 
             }
             
@@ -48,7 +48,7 @@ public:
         vector<vector<string>> result;
         vector<string> curr;
         
-        backtrack(s, 0, curr, result);
+        backtrack(s, 0, curr, result);//0 is index of s
         
         return result;
         
