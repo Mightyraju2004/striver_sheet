@@ -15,7 +15,7 @@ bool find(vector<vector<char>>&board,int i,int j,int idx,string &word){
 
         if(find(board,i_,j_,idx+1,word)) return true;
     } 
-    board[i][j]=temp;
+    board[i][j]=temp;//board[i][j] ko pehla jaisa karo taaki future mai aur possiblilities explore karte waqt dikaat na aaye
     return false;
 }
     bool exist(vector<vector<char>>& board, string word) {
@@ -24,7 +24,7 @@ bool find(vector<vector<char>>&board,int i,int j,int idx,string &word){
          l=word.length();
         for(int i=0;i<m;i++){
             for(int j=0;j<n;j++){
-                if(board[i][j]==word[0] && find(board,i,j,0,word)) return true;
+                if(board[i][j]==word[0] && find(board,i,j,0,word)) return true;//jis i,j pe word[0] mila waha se searching start karo 0 is initial index of word
             }
         }
         return false;
