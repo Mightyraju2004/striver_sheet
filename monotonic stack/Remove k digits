@@ -21,7 +21,7 @@ public:
             result.pop_back();//pop the k top element from stack
             k--;
         }
-        if(result==""){
+        if(result==""){//ex=suppose if num is 10 and k=1
             return "0";
         }
     return result;
