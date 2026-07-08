@@ -23,9 +23,10 @@ public:
         for(int i = 0; i<str.length(); i++) {
             
         
-            temp.push_back(str[i]);//DO
+            temp.push_back(str[i]);//DO something
             solve(idx+1, digits, temp, mp);//explore
-            temp.pop_back();//backtrack/undo
+            temp.pop_back();//backtrack/undo/backtrack
+        // Note=when we use loop to hume pop_back ke baad aage explore karne ki zaroorat nahi hai vo loop khud krlega but agr loop nhi lgaate to aage explore karna padta khud se
             
         }
         
