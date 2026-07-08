@@ -10,11 +10,12 @@ void solve(vector<int>& nums, vector<int>&temp){
     }
     for(int i=0;i<n;i++){
         if(st.find(nums[i])==st.end()){
-            temp.push_back(nums[i]);
-            st.insert(nums[i]);
-            solve(nums,temp);//mirror image           
-            temp.pop_back();
-            st.erase(nums[i]);
+            temp.push_back(nums[i]);//do smt
+            st.insert(nums[i]);//do smt
+            solve(nums,temp);//mirror image  //explore         
+            temp.pop_back();//backtrack
+            st.erase(nums[i]);//backtrack
+//Note=dont use function call here again after backtrack or popback because humne for loop lgaaya hua hai vo khud handle karlega.agr nahi lgaate for loop to khud se likhna hota
         }
     }
 }
