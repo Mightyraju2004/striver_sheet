@@ -10,12 +10,13 @@ public:
             result.push_back(curr);
             return;
         }
-        
+        //phele open bracket lagao
         if(open < n) {
             curr.push_back('(');//do 
             solve(n, curr, open+1, close);//explore
             curr.pop_back();//backtrack
         }
+         //then close bracket lagao
         if(close < open) {
             curr.push_back(')');//after pop_back open bracket(backtrack) now push close bracket and explore
             solve(n, curr, open, close+1);//explore
@@ -28,5 +29,42 @@ public:
         solve(n, curr, 0, 0);
 
         return result;
+
+M-2---------------------------------------------------------------------------------------------------------------------------------------------------->
+class Solution {
+public:
+vector<string>ans;
+bool isvalid(string s){
+    int n= s.length();
+    int balance=0;
+    for(char ch:s){
+        if(ch=='(') balance++;
+        else balance--;
+        if(balance<0) return false;
+    }
+    return balance==0;
+}
+void solve(string s,int n){
+    if (s.length() == 2 * n) {
+            if (isvalid(s)) {
+                ans.push_back(s);
+            }
+            return; // Yeh full-stop maarega recursion par
+        }
+      
+     s.push_back(')');//pehle close bracket lagao then explore that path
+     solve(s,n);//explore that path
+     s.pop_back();//backtrack
+    //backtrack ke baad open bracket lagao aur uske path ko explore karo
+     s.push_back('(');
+     solve(s,n);
+     //s.pop_back();
+}
+    vector<string> generateParenthesis(int n) {
+        string s="";
+        solve(s,n);
+        return ans;
+    }
+};
     }
 };
