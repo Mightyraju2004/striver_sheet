@@ -41,3 +41,34 @@ public:
         return res;
     }
 };
+M-2 --------------------------------------------for loop--------------------------------------------------------->
+//in for loop  backtracking only pick ke liye recursion call karte hai.non pick waali for loop handle karleta hai apne aap
+class Solution {
+public:
+    vector<vector<int>> res;
+
+    void solve(vector<int>& temp, vector<int>& nums, int idx) {
+       
+        res.push_back(temp);//Puraane code (Pick / Non-Pick) mein hum tabhi save karte the jab decision tree ke bilkul aakhiri chhor (idx == n) par pahunchte the. Lekin for loop approach mein kya ho raha hai? Loop khud hi boundary (idx < nums.size()) ka dhyan rakh raha hai
+.par jab last recursion call hogi (temp,nums,n) to is case hai idx==n ho rha hai to vo subset save hojarga res.push_back(temp) se but uske baad loop nahi chlega.it means idx>n nhi ho paega
+
+        // Loop current 'idx' se lekar array ke end tak chalega
+        for (int i = idx; i < nums.size(); i++) {//dont write i<=nums.size() in loop because runtime error aayeaga temp.push_back[nums[n]] is not defined
+            
+            // 1. TAKE / PICK (Current element ko temp mein daalo)
+            temp.push_back(nums[i]);
+
+            // 2. EXPLORE (Agli call mein 'i + 1' bhejenge kyunki subset mein element repeat nahi hota)
+            solve(temp, nums, i + 1);
+
+            // 3. BACKTRACK / NOT-TAKE (Element ko nikaalo taaki loop agle element 'i+1' par jaa sake)
+            temp.pop_back();
+        }
+    }
+
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<int> temp;
+        solve(temp, nums, 0);
+        return res;
+    }
+};
