@@ -10,7 +10,7 @@ void solve(int start,int k,int n,vector<int>&temp){
     //take---------->
     temp.push_back(start);//take
     solve(start+1,k-1,n,temp);//explore
-    temp.pop_back();//non take
+    temp.pop_back();//non take//backtrack
     //not take---------> 
     solve(start+1,k,n,temp);//explore//pop kiya hai to abhi k elements hi uthaaane hai -1 nahi krna k mai
 }
