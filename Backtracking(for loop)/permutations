@@ -2,7 +2,7 @@ class Solution {
 public:
 int n;
 vector<vector<int>>result;
-unordered_set<int>st;
+unordered_set<int>st;//humein duplicate elements (yaani same element ko baar-baar ek hi permutation mein use karne) se bachna hai thats why we use set
 void solve(vector<int>& nums, vector<int>&temp){
     if(temp.size()==n){
         result.push_back(temp);
