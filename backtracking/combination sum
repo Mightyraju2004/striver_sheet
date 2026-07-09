@@ -31,3 +31,82 @@ public:
         return res;
     }
 };
+
+m-2= for loop se backtracking--------------------------------------------------------------------------------->
+class Solution {
+public:
+    vector<vector<int>> res;
+
+    void solve(int index, int target, vector<int>& candidates, vector<int>& temp) {
+        // Base Case: Agar target 0 ho gaya, toh combinations mil gaya
+        if (target == 0) {
+            res.push_back(temp);
+            return;
+        }
+
+        // Loop current index se lekar candidates ke end tak chalega
+        for (int i = index; i < candidates.size(); i++) {
+            // Optimization: Agar current element target se bada hai, 
+            // aur array sorted hai, toh aage check karne ki zaroorat nahi hai (Optional)
+            if (candidates[i] > target) {
+                continue; // Ya fir 'break' agar candidates sorted ho
+            }
+
+            // 1. Element ko temp mein daalo
+            temp.push_back(candidates[i]);
+
+            // 2. Recursion call (index 'i' hi pass karenge kyunki same element repeat ho sakta hai)
+            solve(i, target - candidates[i], candidates, temp);
+
+            // 3. Backtrack (Element ko nikaalo taaki dusre combinations check ho sakein)
+            temp.pop_back();
+        }
+    }
+
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<int> temp;
+        // Agar aap array ko sort kar doge, toh `candidates[i] > target` par direct 'break' kar sakte ho, 
+        // jisse code aur fast ho jayega.
+        // sort(candidates.begin(), candidates.end()); 
+        
+        solve(0, target, candidates, temp);
+        return res;
+    }
+};
+
+---------------------------------------------------summary-------------------------------------------------------------------------------------------
+1. Pick / Non-Pick Approach (Binary Decision Tree)Is approach mein aap har element ke samne khade hokar sirf 2 choices lete hain: "Is element ko lu ya na lu?"Dimaag mein chalne waali soch: Ek baar element ko lekar aage badho, ek baar bina liye aage badho.Recursion Calls: Ismein hamesha do alag-alag recursion calls likhi jaati hain.Recursion Call Ka Funda:C++
+// CHOICE 1: PICK (Element ko temp mein daala)
+temp.push_back(candidates[index]);
+solve(index, target - candidates[index]); // Same index kyunki repeat kar sakte hain
+// (Agar repeat nahi kar sakte hote, toh index + 1 bhejte)
+
+temp.pop_back(); // Backtrack (Rasta saaf kiya)(pehle jaise state pe pahuche)
+
+// CHOICE 2: NON-PICK (Bina element ko liye agle par chale gaye)
+solve(index + 1, target); // Index badal gaya, par target SAME raha
+Kab use karein? Jab aapko "Subsets", "Subsequences" nikaalne hon, ya jab fixed do hi raaste hon (Yes/No).
+
+2.For-Loop Approach (Multi-Way Decision Tree)Is approach mein aap ek index par khade hokar aage ke saare available options (elements) par ek saath nazar daalte hain.Dimaag mein chalne waali soch: Main abhi jis position par hoon, wahan array ka kaun-kaun sa element fit baith sakta hai? Main ek-ek karke sabko try karunga.Recursion Calls: Ismein loop ke andar sirf EK recursion call hoti hai, kyunki non-pick ka kaam loop khud handle kar leta hai.Recursion Call Ka Funda:C++for (int i = index; i < candidates.size(); i++) {
+    // 1. DO: Jo option pasand aaya, use pick karo
+    temp.push_back(candidates[i]);
+    
+    // 2. EXPLORE: Agli call lagao.only pick ki call lgegi non pick khud handle karlega loop
+    solve(i, target - candidates[i]); // 'i' bheja kyunki element repeat ho sakta hai
+    // (Agar repeat nahi kar sakte hote, toh 'i + 1' bhejte)
+    
+    // 3. UNDO: Backtrack karo taaki loop agle element 'i+1' ko try kar sake
+    temp.pop_back(); 
+}
+Kab use karein? Jab "Combinations", "Permutations" nikaalne hon, ya jab array mein se elements ko aage-piche chunne ki choices zyada hon.💡 Confusion Door Karne Wali Ultimate Cheat SheetAapko recursion call likhte waat bas 2 sawaal khud se poochne hain:Sawaal 1: Kya element REPEAT ho sakta hai?Haan (Infinite Supply): Recursion call mein hamesha current variable hi bhejo (Pick/Non-Pick mein index, For-Loop mein i).Naa (Use Only Once): Recursion call mein hamesha agla index bhejo (Pick/Non-Pick mein index + 1, For-Loop mein i + 1).Sawaal 2: Target ke sath kya karein?Agar element ko PUSH kiya hai (temp.push_back): Toh target hamesha kam hoga $\rightarrow$ target - candidates[...].Agar element ko PUSH nahi kiya (Sirf Pick/Non-Pick ki second call mein): Toh target SAME rahega $\rightarrow$ target.Agli baar jab question samne aaye, toh pehle tay karo ki Method 1 (Binary) lagana hai ya Method 2 (Loop). Uske baad bas upar diye gaye 2 sawaal khud se poocho, recursion call bina kisi darr ke sahi likhi jayegi!
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Ek simple rule yaad rakho: Recursion call ke andar jo kuch bhi hota hai, woh us call ke khatam hote hi mitti mein mil jata hai (gayab ho jata hai).
+Aaiye isko line-by-line breakdown karte hain ki loop mein target wapas kaise same rehta hai:C++
+for (int i = index; i < candidates.size(); i++) {
+    temp.push_back(candidates[i]);
+    
+    solve(i, target - candidates[i]); // <--- CALL 1 (Maan lo i=0, yani Perk)
+    
+    temp.pop_back(); // <--- Backtrack (Yahan wapas aaye)
+}
+1. target - candidates[i] karne se asal target kam nahi hota!Jab aap likhte ho solve(i, target - candidates[i]), toh aap apne current function ke target variable ki value ko badal nahi rahe ho. Aap bas uski ek ghati hui value calculate karke agli call ko gift de rahe ho.Agar aapka original target = 10 tha, aur candidates[i] = 3 hai.Toh agli call (CALL 1) ke paas naya target jayega 7.Lekin jo aapki current function call hai, uske dimaag mein target abhi bhi 10 hi save hai! Uska apna target kharab nahi hua.2. Pop_back ke baad kya hota hai? (The "Reject" Moment)Jab CALL 1 (Perk waali branch) apna poora kaam khatam karke wapas aati hai, toh code agli line par jata hai: temp.pop_back();. Aapne Perk ko nikal diya.Ab loop ka agla turn chala: i badh kar 1 ho gaya (Munch).Ab dhyan se socho, jab loop i = 1 ke liye chal raha hai:Aapka temp wapas khali ho chuka hai.Aapka target abhi bhi 10 hi hai (kyunki current function ka target toh kabhi badla hi nahi tha!).Ab code chalega: temp.push_back(candidates[1]) (Munch ko pick kiya).Aur agli call jayega: solve(1, target - candidates[1]) $\rightarrow$ yaani 10 - Munch ke paise.
