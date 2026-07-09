@@ -30,3 +30,42 @@ void solve(int i,vector<int>&nums,vector<int>&temp){
         return result;
     }
 };
+---------------------------------------------------m-2---------------------------------for loop---------------------------------------------------------------------
+class Solution {
+public:
+    vector<vector<int>> res;
+
+    void solve(vector<int>& temp, vector<int>& nums, int idx) {
+        // Har step par jo bhi temp bana hai use valid subset maan kar save karo
+        res.push_back(temp);
+
+        // Loop current 'idx' se lekar array ke end tak chalega
+        for (int i = idx; i < nums.size(); i++) {
+            
+            // CRITICAL CHECK FOR DUPLICATES:
+            // Agar current element pichle element ke jaisa hi hai, 
+            // aur hum usi same level par aage badh rahe hain (i > idx), toh use SKIP karo.
+            if (i > idx && nums[i] == nums[i - 1]) {
+                continue; 
+            }
+
+            // 1. TAKE / PICK
+            temp.push_back(nums[i]);
+
+            // 2. EXPLORE (Agli call mein 'i + 1' bhejenge)
+            solve(temp, nums, i + 1);
+
+            // 3. BACKTRACK / NOT-TAKE
+            temp.pop_back();
+        }
+    }
+
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        // Step 1: Array ko sort karna compulsory hai taaki duplicates sath mein aa jayein
+        sort(nums.begin(), nums.end());
+        
+        vector<int> temp;
+        solve(temp, nums, 0);
+        return res;
+    }
+};
