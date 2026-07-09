@@ -5,21 +5,21 @@ class Solution {
 public:
     vector<string> result;
 
-    void solve(int n, string curr, int open, int close) {
+    void solve(int n, string &curr, int open, int close) {
         if(curr.length() == 2*n) {
             result.push_back(curr);
             return;
         }
         
         if(open < n) {
-            curr.push_back('(');
-            solve(n, curr, open+1, close);
-            curr.pop_back();
+            curr.push_back('(');//do 
+            solve(n, curr, open+1, close);//explore
+            curr.pop_back();//backtrack
         }
         if(close < open) {
-            curr.push_back(')');
-            solve(n, curr, open, close+1);
-            curr.pop_back();
+            curr.push_back(')');//after pop_back open bracket(backtrack) now push close bracket and explore
+            solve(n, curr, open, close+1);//explore
+            curr.pop_back();//backtrack
         }
     }
     vector<string> generateParenthesis(int n) {
