@@ -19,6 +19,11 @@ public:
 //Loop num = i se 9 tak isiliye chal raha hai taaki:
 //Ek combination mein koi element repeat na ho (jaise [2, 2] na ban jaye).duplicates na ho element
 //Saare combinations unique hon, yaani duplicates permutations na banein (jaise agar [1, 2, 4] ban gaya hai, toh dobara kisi aur branch se [2, 1, 4] ya [4, 1, 2] na bane).
+/*
+i (Starting Point): Yeh pichli call se aaya hua variable tha, jo batata tha ki ab hume kis ginti (number) se shuru karna hai taaki hum piche chhoote chote numbers par na chale jayein.
+
+num (Loop Rider): Yeh loop ka apna variable tha jo i se lekar 9 tak ek-ek karke aage badh raha tha numbers ko pick karne ke liye.
+*/
         for (int num = i; num <= 9; num++) {
             // 1. DO: Current number ko temporary list mein daalo
             temp.push_back(num);
