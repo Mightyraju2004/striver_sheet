@@ -8,7 +8,7 @@ void solve(vector<int>& nums, vector<int>&temp){
         result.push_back(temp);
         return;
     }
-    for(int i=0;i<n;i++){
+    for(int i=0;i<n;i++){//har iteration i=0 se start hogi
         if(st.find(nums[i])==st.end()){
             temp.push_back(nums[i]);//do smt
             st.insert(nums[i]);//do smt
