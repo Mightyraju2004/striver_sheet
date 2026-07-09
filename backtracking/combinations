@@ -34,7 +34,7 @@ public:
             return;
         }
 
-        // Loop 'start' se lekar 'n' tak chalega
+        // Loop 'start' se lekar 'n' tak chalega//  if(start>n) return ye condition yaha nhi likhni loop smbhal lega ise kyuki for loop i=start se i<=n tak hai to vo condition waha sambhal jaayegi automatically
         for (int i = start; i <= n; i++) {
             
             // 1. TAKE / PICK (Element 'i' ko temp mein daala)
