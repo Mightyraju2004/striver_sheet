@@ -54,3 +54,17 @@ public:
         
     }
 };
+/*
+for(i=idx->n)
+1. idx kya hai? (The Starting Point 📍)
+idx hume batata hai ki pichle saare cuts lagne ke baad, string ka jo bacha hua hissa (remaining part) hai, woh kis index se shuru ho raha hai. Iska matlab idx se piche waali string ka faisla ho chuka hai, use ab touch nahi karna.
+
+2. i kya hai? (The Cutting Knife 🔪)
+i loop ke sath aage badhta hai. i ka kaam hai idx se lekar aage tak jaana aur ek-ek karke substring ka end point tay karna.
+
+Jab loop i = idx par hai, toh substring bani s[idx...idx] (1 length ki).
+
+Jab i badhkar idx + 1 hua, toh substring bani s[idx...idx+1] (2 length ki).
+
+Jab i badhkar idx + 2 hua, toh substring bani s[idx...idx+2] (3 length ki).
+*/
