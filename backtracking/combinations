@@ -1,3 +1,4 @@
+<--------------------------------approach 1 pick/non pick--------------------------------------------------------------------------------------------------------------------->
 class Solution {
 public:
 vector<vector<int>>res;
@@ -18,5 +19,39 @@ void solve(int start,int k,int n,vector<int>&temp){
        vector<int>temp;
       solve(1,k,n,temp);
       return res;  
+    }
+};
+
+<------------------------approach 2(for loop)=for loop mai sirf pick(take) ka hi likhte hai non take waala loop smabhal leta hi---------------------------------->
+class Solution {
+public:
+    vector<vector<int>> res;
+
+    void solve(int start, int k, int n, vector<int>& temp) {
+        // Base Case: Agar humne k elements chun liye hain (k == 0)
+        if (k == 0) {
+            res.push_back(temp);
+            return;
+        }
+
+        // Loop 'start' se lekar 'n' tak chalega
+        for (int i = start; i <= n; i++) {
+            
+            // 1. TAKE / PICK (Element 'i' ko temp mein daala)
+            temp.push_back(i);
+
+            // 2. EXPLORE (Agli call mein 'i + 1' bhejenge kyunki element repeat nahi karna, 
+            // aur ek element le liya hai toh ab 'k - 1' elements chahiye)
+            solve(i + 1, k - 1, n, temp);
+
+            // 3. BACKTRACK / REJECT (Element ko nikaalo taaki loop agle element 'i+1' ko try kar sake)
+            temp.pop_back(); 
+        }
+    }
+
+    vector<vector<int>> combine(int n, int k) {
+        vector<int> temp;
+        solve(1, k, n, temp);
+        return res;  
     }
 };
