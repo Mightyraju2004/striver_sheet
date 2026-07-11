@@ -1,0 +1,58 @@
+class Solution {
+  public:
+    bool canAttend(vector<vector<int>> &arr) {
+        // Code Here
+        int n=arr.size();
+        sort(arr.begin(),arr.end());
+         int prevEnd = arr[0][1];
+        for(int i=1;i<n;i++){
+           int currStart = arr[i][0];
+            int currEnd = arr[i][1];
+            
+            // If the current meeting starts before the previous one ends, conflict!
+            if (currStart < prevEnd) {
+                return false;
+            }
+            
+            // Update the previous end time to the current meeting's end time
+            prevEnd = currEnd;
+        }
+        return true;
+    }
+};
+
+M-2------------------------------------------------------------------------------------------------------------------------------------------------------------->
+//Line sweeping
+class Solution {
+  public:
+    bool canAttend(vector<vector<int>> &arr) {
+        // Code Here
+        map<int, int> mp;//ordered map hai to already sorted hai sort karne ki zarrorat nhi
+        
+        for (const auto& meeting : arr) {
+            // +1 means interval start (meeting shuru hui)
+            mp[meeting[0]]++;
+            
+            // -1 means interval end (meeting khatam hui)
+            // LeetCode ke mutabik agar ek meeting 5 pe khatam ho aur dusri 5 pe shuru ho,
+            // toh use overlap nahi maana jata (insaan ek room se nikal kar turant dusre me ja sakta hai).
+            mp[meeting[1]]--;
+        }
+        
+        int current_rooms = 0;
+        
+        // Map automatic sorted order me time ke mutabik chalega
+        for (const auto& event : mp) {
+            current_rooms += event.second; // +1 ya -1 add hoga
+            
+            // 🔥 Asli check yahan hai:
+            // Agar kisi bhi point par current_rooms 1 se bada ho gaya,
+            // iska matlab ek hi time par 2 meetings chal rhi hain, so overlap ho gaya!
+            if (current_rooms > 1) {
+                return false; // Saari meetings attend nahi kar sakta
+            }
+        }
+        
+        return true; // Koi overlap nahi mila, sab sahi hai
+    }
+};
