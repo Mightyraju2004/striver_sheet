@@ -1,0 +1,29 @@
+// class Solution {
+// public:
+// void rev(vector<char> &s,int i){
+//     if(i>=s.size()/2) return ;
+
+//      swap(s[i],s[s.size()-i-1]) ;
+//       rev(s,i+1);//go to next step
+// }
+
+//     void reverseString(vector<char>& s) {//s is of vector of char type
+//       rev(s,0);
+//     } //fxn is ends here
+// };
+
+class Solution {
+public:
+    void reverseString(vector<char>& s) {//s is of vector of char type
+    //approach is use two pointers i and j(two pointers technique)
+    int n=s.size();//s.length() nhi likh skte because vector ke case mai nhi likhte use
+    int i=0;//ist index of s is 0 and last index is n-1
+    int j=n-1;
+      while(i<j){//i<=j bhi aa skta hai
+        swap(s[i],s[j]);
+        i++;
+        j--;
+      }  //while loop ends here
+      
+    } //fxn is ends here
+};
