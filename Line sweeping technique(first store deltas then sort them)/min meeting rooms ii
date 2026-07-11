@@ -17,3 +17,27 @@ class Solution {
         return max_overlap;
     }
 };
+/*
+Minimum number of rooms nikalne ke liye hume pure din ka MAXIMUM overlap hi dhoondhna padta hai
+agar hum sirf current_overlap (ya current_rooms) return kar dete, toh pata hai kya gadbad hoti? Humara answer is baat par depend karta ki sabse aakhri interval konsa khatam hua, na ki is baat par ki sabse zyada bheed kab thi.
+
+Map Ka Line Sweep Kaise Chalta Hai?
+Line sweep jab chalta hai, toh wo subah se shuru hokar shaam tak (left to right) ek-ek time point par jata hai:
+Jab koi interval shuru hota hai, toh current_overlap badhta hai (++).
+Jab koi interval khatam hota hai, toh current_overlap ghat ta hai (--).
+
+Real-Life Story: Ek Halwai Aur Kadhai 🍳
+Maan lo tumhare ghar me ek function chal rha hai, aur tumne ek halwai bulaya hai. Halwai ne apna menu bataya:
+
+Subah 9 baje: Use ek sath 2 alag-alag sabji banani hain (Toh 2 Kadhai chahiye).
+
+Dopehar 12 baje: Bheed badhegi, toh use ek sath 5 alag-alag items (puri, sabji, kheer, halwa, paneer) banane hain (Toh 5 Kadhai chahiye).
+
+Shaam 4 baje: Use bas 1 item chai banani hai (Toh 1 Kadhai chahiye).
+
+Ab tum halwai ke paas gaye aur pucha: "Bhaiya, kam se kam (Minimum) kitni kadhai market se rent par lekar aani padengi?"
+
+Agar tumhara waala logic lagayein: Tum bologe ki shaam ko toh bas 1 hi kadhai use ho rhi hai, toh chalo market se sirf 1 hi kadhai lekar aate hain.
+
+Par socho kya hoga: Subah jab halwai 2 sabji ek sath banane baithega, ya dopehar ko jab 5 items ek sath banane baithega, toh baaki items kahan banenge? Function kharab ho jayega!
+*/
