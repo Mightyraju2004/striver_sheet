@@ -1,0 +1,24 @@
+class Solution {
+public:
+//T.C=o(n)
+//S.C=o(1)
+    int maxArea(vector<int>& height) {
+        //dont use sorting because we will loose the original index positions,spacing between lines
+        int n=height.size();
+        int maxarea=0;
+        //two pointer
+        int left=0,right=n-1;
+
+        while(left<right){
+            int area=min(height[left],height[right])*(right-left);//take min because shorter wall decides the storage
+            maxarea=max(maxarea,area);
+
+            if (height[left] < height[right])
+    left++;   //(as width decrease then we want more height to gain more area so we try to stay with bigger height taaki future mai kabhi bada area mil jaaye).so we greedily remains with higher height
+else
+    right--;  // same reason, from the other end
+
+        }
+        return maxarea;
+    }
+};
