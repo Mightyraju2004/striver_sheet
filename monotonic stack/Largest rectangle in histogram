@@ -1,0 +1,60 @@
+//Monotonic stack means either stack is only increasing or only decreasing
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& heights) {
+
+        //tc=o(N)+o(N)+o(N)+o(N)=o(N)
+        //sc=o(3N)
+        int n = heights.size();
+        int leftsmall[n],rightsmall[n];
+        int maxA=0;
+        stack<int>st;
+
+        for(int i=0;i<n;i++){
+            while(!st.empty() && heights[st.top()]>=heights[i])
+            st.pop();
+
+            if(st.empty()) leftsmall[i]=-1;
+            else leftsmall[i]=st.top();
+
+            st.push(i);
+        }
+
+        while(!st.empty()) st.pop();//clear the stack toi be reused.
+
+        //now for right small.
+        for(int i=n-1;i>=0;i--){
+            while(!st.empty() && heights[st.top()]>=heights[i])
+            st.pop();
+
+            if(st.empty()) rightsmall[i]=n;
+            else rightsmall[i]=st.top();
+
+            st.push(i);
+        }
+
+        for(int i=0;i<n;i++){
+            maxA=max(maxA,(rightsmall[i]-leftsmall[i]-1)*heights[i]);
+        }
+        return maxA;
+    }
+};
+
+        
+    
+
+//TC=o(n2)
+// int i=0;
+//   int j=0;
+//   int n=heights.size();
+//   int maxi=0;
+//   for(int i=0;i<n;i++){
+//   	int height=heights[i];
+//     for(int j=i;j<n;j++){
+//       height=min(height,heights[j]);
+//       maxi=max(maxi,(j-i+1)*height);
+//     }
+//   }
+//   return maxi;
+//         }
+// };
