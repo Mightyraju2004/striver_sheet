@@ -1,0 +1,30 @@
+class Solution {
+  public:
+    int overlapInt(vector<vector<int>> &arr) {
+        // code here
+        map<int, int> mp;//ordered map sorted ascending order mai store karta hai keys ko
+        int n = arr.size();
+        
+        for(int i = 0; i < n; i++){
+            // +1 means interval start
+            mp[arr[i][0]]++; 
+            
+            // -1 means interval end (par 1 second ki deri se taaki overlap miss na ho)
+            mp[arr[i][1] + 1]--; 
+        }
+
+        int max_overlap = 0;
+        int current_overlap = 0;
+
+        // map sorted order me loop chalayega
+        for (const auto& event : mp) {
+            // current_overlap me +1 ya -1 add hota jayega
+            current_overlap += event.second; 
+            
+            // ab tak ka maximum overlap track ho rha hai
+            max_overlap = max(max_overlap, current_overlap);
+        }
+
+        return max_overlap;
+    }
+};
