@@ -1,3 +1,4 @@
+//maxoverlap=min meeting rooms required
 class Solution {
   public:
     int minMeetingRooms(vector<int> &start, vector<int> &end) {
@@ -7,12 +8,12 @@ class Solution {
             events[start[i]]++;
             events[end[i]]--;
         }
-        int curr_rooms=0;
-        int max_rooms=0;
+        int curr_overlap=0;
+        int max_overlap=0;
         for(auto &it:events){
-            curr_rooms+=it.second;
-            max_rooms=max(max_rooms,curr_rooms);
+            curr_overlap+=it.second;
+            max_overlap=max(max_overlap,curr_overlap);
         }
-        return max_rooms;
+        return max_overlap;
     }
 };
