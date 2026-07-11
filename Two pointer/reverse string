@@ -21,8 +21,8 @@ public:
     int j=n-1;
       while(i<j){//i<=j bhi aa skta hai
         swap(s[i],s[j]);
-        i++;
-        j--;
+        i++;//i waala swap hogya so increase by 1
+        j--;//j waala bhi swap hogya so decresae by 1
       }  //while loop ends here
       
     } //fxn is ends here
