@@ -23,6 +23,7 @@
 // };
 
 //tc=o(n) because each elemennt deque mai  sirf ek hi paar push ho rha hai aur ek hi baar pop ho rha hai.(multiple time nhi ho rha thats why o(n))
+//monotonic decreasing queue
 class Solution {
 public:
     vector<int> maxSlidingWindow(vector<int>& nums, int k) {
