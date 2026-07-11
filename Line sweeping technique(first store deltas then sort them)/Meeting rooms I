@@ -39,16 +39,16 @@ class Solution {
             mp[meeting[1]]--;
         }
         
-        int current_rooms = 0;
+        int current_meetings = 0;//current_meetings ka simple aur ekdum seedha matlab hai: "Timeline ke kisi ek specific minute ya point par, ek sath total kitni meetings chal rhi hain (active hain)."
         
         // Map automatic sorted order me time ke mutabik chalega
         for (const auto& event : mp) {
-            current_rooms += event.second; // +1 ya -1 add hoga
+            current_meetings += event.second; // +1 ya -1 add hoga
             
             // 🔥 Asli check yahan hai:
             // Agar kisi bhi point par current_rooms 1 se bada ho gaya,
             // iska matlab ek hi time par 2 meetings chal rhi hain, so overlap ho gaya!
-            if (current_rooms > 1) {
+            if (current_meetings > 1) {
                 return false; // Saari meetings attend nahi kar sakta
             }
         }
