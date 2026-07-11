@@ -1,0 +1,48 @@
+//use three pointers i,l,r;
+//Approach (Two Pointer)
+class Solution {
+public:
+    string reverseWords(string s) {
+        
+        //1. reverse whole string
+        
+        reverse(s.begin(), s.end());
+        
+        int i = 0;
+        //hero honge hamare l and r jo revrese karenge words ko
+        int l = 0, r = 0;
+        
+        int n = s.length();
+        
+        while(i < n) {
+            while(i < n && s[i] != ' ') { //i ko agar char dikha to r ko dega and i++ and r++
+                s[r++] = s[i++];
+            }
+            
+            if(l < r) { //l     r
+                reverse(s.begin()+l, s.begin()+r);//here s.begin() is s.begin()+l and s.end() is s.begin()+r
+                
+                
+                s[r] = ' ';
+                r++;
+                 
+                
+                l = r;
+            }
+            
+            i++; //y eto badhta rahega
+        }
+        
+        s = s.substr(0 , r-1);//0th index se start hokr r-1 length tak
+        
+        return s;
+        
+    }
+};
+/*
+Before:  0  1 [2  3  4] 5  6 //these are indexes not elements
+               ^        ^
+            begin+2  begin+5
+
+After reverse:   0  1 [4  3  2] 5  6
+*/
