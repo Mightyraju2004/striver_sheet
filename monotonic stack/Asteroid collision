@@ -1,0 +1,30 @@
+class Solution {
+public:
+    vector<int> asteroidCollision(vector<int>& asteroids) {
+        int n =asteroids.size();
+       stack<int>st;
+
+       for(int &a : asteroids){
+          while(!st.empty() && a<0 && st.top()>0){//when upcomingelement<0 and st.top()>0 then only collison can occur
+             int sum = a + st.top();
+             if(sum<0) st.pop();
+             else if(sum>0) a=0;
+             else{//sum==0
+                a=0;
+                st.pop();
+             }
+          }
+          if(a!=0) st.push(a);
+       }
+       //here stack is monotonic increasing stack
+         int s=st.size();
+         int i=s-1;
+         vector<int>ans(s);
+         while(!st.empty()){
+            ans[i]=st.top();
+            st.pop();
+            i--;
+         }
+        return ans;
+    }
+};
