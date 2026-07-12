@@ -1,0 +1,19 @@
+class Solution {
+public:
+    vector<int> count_NGE(vector<int> &arr, vector<int> &indices) {
+        vector<int> ans;
+        int n = arr.size();
+        
+        for (int idx : indices) {
+            int count = 0;
+            // index ke right me saare elements check karo
+            for (int j = idx + 1; j < n; j++) {
+                if (arr[j] > arr[idx]) {
+                    count++;
+                }
+            }
+            ans.push_back(count);
+        }
+        return ans;
+    }
+};
