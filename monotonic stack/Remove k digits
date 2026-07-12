@@ -1,3 +1,4 @@
+////In a monotonic increasing stack, the elements grow larger as you move from the bottom of the stack to the top.
 class Solution {
 public:
     string removeKdigits(string num, int k) {
