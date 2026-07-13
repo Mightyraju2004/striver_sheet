@@ -53,3 +53,21 @@ vector<int>getnsr(vector<int>&arr,int n){
          return totalsum;
     }
 };
+
+//M-2 brute force(o of n2)
+//intuition is find all possible subarrays then add their minm element in required sum
+class Solution {
+public:
+    int sumSubarrayMins(vector<int>& arr) {
+        int n =arr.size();
+        int sum=0;
+        for(int i=0;i<n;i++){
+            int minm=arr[i];
+            for(int j=i;j<n;j++){//subarrays of example [3,1,2,4] are [3],[3,1],[3,1,2],[3,1,2,4],[1],[1,2],[1,2,4],[2],[2,4],[4]
+                minm=min(minm,arr[j]);
+                sum+=minm;
+            }
+        }
+        return sum;
+    }
+};
