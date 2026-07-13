@@ -1,0 +1,131 @@
+//brute force:
+// class Solution {
+// public:
+//     long long subArrayRanges(vector<int>& nums) {
+//         int n = nums.size();
+//         long long totalSum = 0;
+
+//         // i represents the start of the window
+//         for (int i = 0; i < n; i++) {
+//             int currentMin = nums[i];
+//             int currentMax = nums[i];
+
+//             // j represents the end of the window (expanding the window)
+//             for (int j = i; j < n; j++) {
+//                 // Update running min and max for the subarray nums[i...j]
+//                 if (nums[j] < currentMin) currentMin = nums[j];
+//                 if (nums[j] > currentMax) currentMax = nums[j];
+
+//                 // Add the range (max - min) to the total
+//                 totalSum += (currentMax - currentMin);
+//             }
+//         }
+//         return totalSum;
+//     }
+// };
+
+class Solution {
+public:
+//nsl is next smaller to left
+vector<int> getnsl(vector<int>& arr, int n) {
+
+    stack<int> st;
+    vector<int> result(n);
+
+    for (int i = 0; i < n; i++) {
+        // if (st.empty())
+        //     result[i] = -1;
+            while (!st.empty() && arr[st.top()] >= arr[i]) 
+                st.pop();
+            
+            result[i] = st.empty() ? -1 : st.top();
+            st.push(i);
+    }
+    return result;
+}
+//nsr is next smaller to right
+vector<int> getnsr(vector<int>& arr, int n) {
+
+    stack<int> st;
+    vector<int> result(n);
+
+    for (int i = n - 1; i >= 0; i--) {
+        // if (st.empty())
+        //     result[i] = n;
+        
+            while (!st.empty() && arr[st.top()] > arr[i]) 
+                st.pop();
+            
+            result[i] = st.empty() ? n : st.top();
+        
+        st.push(i);
+    }
+    return result;
+}
+//ngl is next greater to left
+vector<int> getngl(vector<int>& arr, int n) {
+
+    stack<int> st;
+    vector<int> result(n);
+
+    for (int i = 0; i < n; i++) {
+        // if (st.empty())
+        //     result[i] = -1;
+        
+            while (!st.empty() && arr[st.top()] <= arr[i]) 
+                st.pop();
+            
+            result[i] = st.empty() ? -1 : st.top();
+        st.push(i);
+    }
+    return result;
+}
+//ngr is next greater to right
+vector<int> getngr(vector<int>& arr, int n) {
+
+    stack<int> st;
+    vector<int> result(n);
+
+    for (int i = n - 1; i >= 0; i--) {
+        // if (st.empty())
+        //     result[i] = n;
+        
+            while (!st.empty() && arr[st.top()] < arr[i]) 
+                st.pop();
+            
+            result[i] = st.empty() ? n : st.top();
+        
+        st.push(i);
+    }
+    return result;
+}
+
+long long subArrayRanges(vector<int>& arr) {
+
+    int n = arr.size();
+
+    vector<int> nsl = getnsl(arr, n);
+    vector<int> nsr = getnsr(arr, n);
+
+    vector<int> ngl = getngl(arr, n);
+    vector<int> ngr = getngr(arr, n);
+
+    long long minsum = 0;
+    long long maxsum = 0;
+
+    for (int i = 0; i < n; i++) {
+
+        long long ls = i - nsl[i];
+        long long rs = nsr[i] - i;
+
+        minsum += 1LL * arr[i] * ls * rs;
+
+        ls = i - ngl[i];
+        rs = ngr[i] - i;
+
+        maxsum += 1LL * arr[i] * ls * rs;
+    }
+
+    return maxsum - minsum;
+}
+};
