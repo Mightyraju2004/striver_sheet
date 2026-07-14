@@ -1,0 +1,84 @@
+//min no of platforms = maximum no of overlaps
+//tc= o(nlogn)
+//sc=o(n)
+class Solution {
+  public:
+    int minPlatform(vector<int>& arr, vector<int>& dep) {
+        // code here
+        map<int,int>events;
+        int n = arr.size();
+        for(int i=0;i<n;i++){
+            events[arr[i]]++;
+            events[dep[i]+1]--;
+        }
+        int curr_platforms=0;
+        int maxi=0;
+        for(auto &it:events){
+            curr_platforms+=it.second;
+            maxi=max(curr_platforms,maxi);
+        }
+        return maxi;
+    }
+};
+
+---------------M-2= greedy(sort+two pointer)--------------------------------------------------------------------------------------------------------------------
+//tc=o(nlogn)
+//sc=o(1)
+class Solution {
+public:
+    int findPlatform(vector<int>& arr, vector<int>& dep) {
+        int n = arr.size();
+        
+        // दोनों को अलग-अलग सॉर्ट कर दो (क्रोनोलॉजिकल ऑर्डर के लिए)
+        sort(arr.begin(), arr.end());
+        sort(dep.begin(), dep.end());
+
+        int i = 0; // Pointer for Arrival
+        int j = 0; // Pointer for Departure
+        
+        int current_platforms = 0;
+        int max_platforms = 0;
+
+        // जब तक सारी ट्रेनें आ नहीं जातीं
+        while (i < n) {
+            // अगर अगली ट्रेन का Arrival टाइम, पहली वाली के Departure से पहले या बराबर है
+            if (arr[i] <= dep[j]) {
+                current_platforms++; // प्लेटफार्म ऑक्युपाय हुआ
+                i++;                 // अगली आने वाली ट्रेन को देखें
+            } 
+            // अगर पहली ट्रेन स्टेशन से चली गई (Departure हो गया)
+            else {
+                current_platforms--; // प्लेटफार्म खाली हुआ
+                j++;                 // अगली जाने वाली ट्रेन को देखें
+            }
+            
+            // किसी भी समय पर सबसे ज़्यादा कितने प्लेटफार्म इस्तेमाल हुए
+            max_platforms = max(max_platforms, current_platforms);
+        }
+        
+        return max_platforms;
+    }
+};
+--------------------------M-3 = brute force(tc=o of n2)---------------------------------------------------------------------------------------------
+class Solution {
+public:
+    int findPlatform(vector<int>& arr, vector<int>& dep) {
+        int n = arr.size();
+        int max_platforms = 1; // कम से कम 1 प्लेटफार्म तो चाहिए ही
+
+        for (int i = 0; i < n; i++) {
+            int count = 1; // ट्रेन 'i' के लिए खुद का प्लेटफार्म
+            for (int j = 0; j < n; j++) {
+                if (i != j) {
+                    // चेक करें कि क्या ट्रेन 'j', ट्रेन 'i' के स्टेशन पर रहने के दौरान आ रही है
+                    if (arr[j] >= arr[i] && arr[j] <= dep[i]) {
+                        count++;
+                    }
+                }
+            }
+            // जो भी मैक्सिमम ओवरलैप मिले, उसे स्टोर कर लें
+            max_platforms = max(max_platforms, count);
+        }
+        return max_platforms;
+    }
+};
