@@ -1,0 +1,30 @@
+class Solution {
+public:
+    bool carPooling(vector<vector<int>>& trips, int capacity) {
+        // Line sweeping technique using an ordered map
+        map<int, int> events;
+
+        for (auto &trip : trips) {
+            int count = trip[0];
+            int start = trip[1];
+            int end = trip[2];
+            
+            // Use += and -= because multiple trips can start/end at the same location
+            events[start] += count;
+            events[end] -= count;
+        }
+        
+        int passcount = 0;
+        //it.first (or it->first): Refers to the Key of the map element.
+        //it.second (or it->second): Refers to the Value associated with that key.
+        // Since std::map is ordered, this automatically processes locations chronologically
+        for (auto &it : events) {
+            passcount += it.second; // Accumulate passenger count changes
+            if (passcount > capacity) {
+                return false; // Capacity exceeded at this timestamp/if at any point of time passcount>capacity then return false;
+            }
+        }
+        return true;
+    }
+};
+a
