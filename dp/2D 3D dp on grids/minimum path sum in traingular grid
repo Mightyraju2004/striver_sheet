@@ -11,7 +11,7 @@ int solve(vector<vector<int>>& triangle,int i,int j){
       if(t[i][j]!=INT_MAX) return t[i][j];
       int  sum1 = solve(triangle,i+1,j);//take value and move to i+1//choice1
       int  sum2= solve(triangle,i+1,j+1);//take value and move to i+1 j+1//choice2
-      //choice 1 choice 2 is same as take skip choices vaisa hi recursion tree bnega
+      //choice 1 choice 2 is same as take skip choices vaisa hi recursion tree bnega(yaani recursion tree mai do child bnenge choice 1 aur choice 2)
         return t[i][j]=triangle[i][j]+min(sum1,sum2);
 }
     int minimumTotal(vector<vector<int>>& triangle) {
