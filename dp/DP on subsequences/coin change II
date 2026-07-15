@@ -1,0 +1,24 @@
+class Solution {
+public:
+int n;
+int t[301][5001];
+int solve(int i,vector<int>&coins,int amount){
+    if(t[i][amount]!=-1) return t[i][amount];
+    if(amount==0) return 1;//ek tareeka mil gya
+    if(i==n) return 0;
+    //take karne se pehle ye coindition check karo
+    if(coins[i]>amount) return t[i][amount] = solve(i+1,coins,amount);//skip.yeh dono jagah chal sakta hai—chahe hum take waali branch ke andar gehre jaa rahe hon, ya skip waali branch ke andar.
+    //// Choice 1: TAKE (Hum same coin dobara le sakte hain, isliye index 'i' hi rahega)
+   int take= solve(i,coins,amount-coins[i]);
+   // Choice 2: SKIP (Hum aage badh rahe hain, isliye 'i + 1')
+   int skip = solve(i+1,coins,amount);
+   // Dono tariko ko add karke return karein
+   return t[i][amount]= take + skip;
+    
+}
+    int change(int amount, vector<int>& coins) {
+         n = coins.size();
+         memset(t,-1,sizeof(t));
+        return solve(0,coins,amount);//0 is index
+    }
+};
