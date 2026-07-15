@@ -1,0 +1,61 @@
+class Solution {
+public:
+    int n;
+    int t[13][10001]; // amount max 10000 hai to 10001 kaafi hai
+
+    int solve(int i, vector<int>& coins, int amount) {
+        // 1. BASE CASES
+        if (amount == 0) return 0; // Amount ban gaya, 0 extra coins chahiye
+        if (i == n) return 1e9;    // IMP: Coins khatam ho gaye par amount nahi bana (Impossible path)
+        
+        // 2. MEMOIZATION CHECK
+        if (t[i][amount] != -1) return t[i][amount];
+        
+        // 3. SECURITY GUARD (SKIP)((Agar coin bada hai amount required se, toh sirf SKIP karo))
+        if (coins[i] > amount) {
+            return t[i][amount] = solve(i + 1, coins, amount);
+        }
+        
+        // 4. TAKE & SKIP CHOICES
+        int take = 1 + solve(i, coins, amount - coins[i]);//1 coin mil gya now aage explore karo.same coins can come again thats why index not change
+        int skip = solve(i + 1, coins, amount);
+        
+        return t[i][amount] = min(take, skip);
+    }
+
+    int coinChange(vector<int>& coins, int amount) {
+        n = coins.size();
+        memset(t, -1, sizeof(t));
+        
+        int ans = solve(0, coins, amount);
+        
+        // Agar answer 1e9 ya usse bada hai, matlab koi combination nahi mila
+        return (ans >= 1e9) ? -1 : ans;
+    }
+};
+/*backtrack means apne pehle jaisi state pe aana*/
+/*
+1. Hum sirf State badal rahe hain, Data Structure nahi
+Backtracking mein pop_back() ki zaroorat tab padti hai jab aap koi global ya shared data structure (jaise vector<int>& current_combination) pass kar rahe ho aur aapko usme se elements ko dalkar ya nikal kar check karna ho (jaise Subset Sum ya Permutations problems mein).
+
+Is code mein, aap koi array ya vector update nahi kar rahe hain. Aap sirf functional parameters (i aur amount) ko pass kar rahe hain.
+
+Jab aap solve(i, coins, amount - coins[i]) call karte hain, toh computer ke memory stack (Call Stack) mein ek naya state banta hai jisme amount ki value temporary kam ho jaati hai.
+
+Jab wo function call khatam (return) hoti hai, toh purana state khud-ba-khud active ho jaata hai jahan amount pehle jaisa hi rehta hai. Isko hum Implicit Backtracking via Call Stack kehte hain.
+*/
+/*Isme backtracking apne aap (implicitly) ho rahi hai, bina kisi pop_back() ke.
+
+Isko bilkul aasan bhasha mein samajhte hain ki computer ke andar chal kya raha hai.
+
+Memory Stack (Call Stack) Ka Khel
+Jab aap kisi function ke parameter mein hi maths kar dete ho—jaise amount - coins[i]—toh aap asal mein original amount variable ki value ko badal nahi rahe ho. Aap sirf uski ek ghati hui value agle function call ko gift de rahe ho.
+
+Jab wo agla function call apna kaam khatam karke return hota hai, toh computer purane function par wapas aata hai. Aur purane function ke paas uski apni amount ki value pehle se safe hoti hai!
+*/
+/*pop_back() se explicit backtracking tab hoti hai jab aap poore recursion ke dauran ek hi single (shared) container ya data structure ka istemal karte ho.
+
+Jab aap rasta badalte hain, toh computer ko khud nahi pata hota ki aapne us array ya vector ke andar kya daal diya hai. Isiliye aapko khud haath se (pop_back()) karke us badlaav ko mitana padta hai taaki agla rasta (choice) saaf-suthra shuru ho sake.
+
+Yeh aamtaur par un problems mein hota hai jahan aapse Subsets, Permutations, ya Paths print karne ya unhe store karne ko kaha jaye.
+*/
