@@ -1,0 +1,59 @@
+//Approach-1 (Recur + Memoization)
+//T.C : O(m*n)
+//S.C : O(m*n)
+class Solution {
+    int t[201][201];
+public:
+    int MPS(vector<vector<int>>& grid, int i, int j, int m, int n) {
+        if(i == m-1 && j == n-1)
+            return t[i][j] = grid[i][j];
+        if(t[i][j] != -1)
+            return t[i][j];
+        if(i == m-1) { //we can only go right
+            return t[i][j] = grid[i][j] + MPS(grid, i, j+1, m, n);//take value and move right
+        } else if(j == n-1) { //we can go only down
+            return t[i][j] = grid[i][j] + MPS(grid, i+1, j, m, n);//take value and move down
+        } else {
+            return t[i][j] = grid[i][j] + min(MPS(grid, i+1, j, m, n), MPS(grid, i, j+1, m, n));
+        }
+    }
+    int minPathSum(vector<vector<int>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+        memset(t,-1,sizeof(t));
+        return MPS(grid, 0, 0, m, n);
+    }
+};
+
+//approach-2(Bottom up)
+class Solution {
+public:
+//T.C : O(m*n)
+//S.C : O(m*n)
+    int minPathSum(vector<vector<int>>& grid) {
+        int m=grid.size();
+        int n=grid[0].size();
+        vector<vector<int>>t(m,vector<int>(n));
+        //t[i][j]=min path sum to reach till [i][j] from [0][0]
+        /*
+        (m, ...): Yeh batata hai ki is matrix mein total m rows (horizontal lines) hongi.
+        vector<int>(n): Yeh har ek row ka size define kar raha hai. Matlab har ek row ke andar n columns (elements) honge.
+        */
+        t[0][0]=grid[0][0];
+        for(int col=1;col<n;col++){
+            t[0][col]=t[0][col-1]+grid[0][col];
+        }
+
+        for(int row=1;row<m;row++){
+            t[row][0]=t[row-1][0] + grid[row][0];
+        }
+
+            for(int row = 1; row<m; row++) {
+            for(int col = 1; col<n; col++) {
+                t[row][col] = grid[row][col] + min(t[row-1][col], t[row][col-1]);
+            }
+        }
+        return t[m-1][n-1];
+
+    }
+    };
