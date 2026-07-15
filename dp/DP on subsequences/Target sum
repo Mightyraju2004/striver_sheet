@@ -1,0 +1,61 @@
+class Solution {
+public:
+    int S; // Stores the total sum of all elements to act as a center offset
+    
+    // MEMOIZATION TABLE / STATE CACHE
+    // Rows (21): Represent the 'index' state (0 to 20 elements).
+    // Columns (2001): Represent the 'curr_sum' state. Shifted by +S to avoid negative indices.
+    int t[21][2001]; 
+
+    int solve(vector<int>& nums, int target, int i, int curr_sum) {
+        // --- 1. BASE CASE / TERMINATION CONDITION ---
+        // We have successfully made a choice (+ or -) for every element in the array.
+        if (i == nums.size()) {
+            // BACKTRACKING CHECK: Did this specific path of choices lead to our target?
+            // If yes, this path is valid (returns 1). If no, it's invalid (returns 0).
+            return curr_sum == target ? 1 : 0;//1 means 1 tareeka ,0 means 0 tareeke
+        }
+
+        // --- 2. MEMOIZATION LOOKUP ---
+        // Check if we have already explored this exact subproblem state (index `i` with running sum `curr_sum`)
+        // 'curr_sum + S' maps negative sums safely to positive array indices.
+        if (t[i][curr_sum + S] != -1) {
+            return t[i][curr_sum + S];
+        }
+
+        // --- 3. THE CHOICE / EXPLORATION PHASE ---
+        
+        // CHOICE 1: Assign a POSITIVE (+) sign to the current element.
+        // State updates: index moves forward (i + 1), running sum increases (curr_sum + nums[i])
+        int plus  = solve(nums, target, i + 1, curr_sum + nums[i]);
+        
+        // --- IMPLICIT(khud se bina pop_back line likhe) BACKTRACKING HAPPENS HERE ---(when fxn call ends to waapis fxn waha chla jaata hai jaha se call hua hai,(call stack))
+        // When 'plus' returns, the program control pops back to this line.
+        // The algorithm "undoes" the '+' choice by reverting to the original 'curr_sum' variable 
+        // in this stack frame, allowing us to cleanly try the alternative choice below.
+
+        // CHOICE 2: Assign a NEGATIVE (-) sign to the current element.
+        // State updates: index moves forward (i + 1), running sum decreases (curr_sum - nums[i])
+        int minus = solve(nums, target, i + 1, curr_sum - nums[i]);
+
+        // --- 4. STATE AGGREGATION & MEMOIZATION ---
+        // Combine the results of both branches (Total ways = ways from '+' path + ways from '-' path).
+        // Cache this result before returning so future overlapping states don't re-calculate it.
+        return t[i][curr_sum + S] = plus + minus;
+    }
+
+    int findTargetSumWays(vector<int>& nums, int target) {
+        // Calculate the maximum possible absolute sum to define our bounds
+        S = accumulate(begin(nums), end(nums), 0); 
+
+        // // Edge case: If the target is physically out of bounds of what the array can sum to,
+        // // no combination of +/- can ever reach it.
+        // if (abs(target) > S) return 0;
+
+        // Initialize the memoization grid with -1 to signify "unvisited state"
+        memset(t, -1, sizeof(t));
+
+        // Start the recursive backtracking tree from index 0 with an initial running sum of 0
+        return solve(nums, target, 0, 0);
+    }
+};
