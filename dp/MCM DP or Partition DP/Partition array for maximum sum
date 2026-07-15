@@ -1,0 +1,53 @@
+//Approach-1 (Recursion + Memo)
+//T.C : With Memoization - O(n*k) -> We visit only n states in dp array and everytime run a for loop of size k
+//      Without Memoization - We have 2 options at each index - O(k^n) - Since the recursion tree has a branching factor of k, and the depth of the recursion tree is at most n
+//S.C : O(n)
+// class Solution {
+// public:
+// int t[501];
+// int n;
+// int solve(int i,vector<int>&arr,int k){
+//     if(i>=arr.size()) return 0;
+//     if(t[i]!=-1) return t[i];
+//     int curr_max=-1;
+//     int result=0;
+//     for(int j=i;j<n && j-i+1<=k;j++){
+//         curr_max=max(curr_max,arr[j]);
+//        result=max(result,((j-i+1)*curr_max + solve(j+1,arr,k)));
+//     }
+//     return t[i]=result;
+// }
+//     int maxSumAfterPartitioning(vector<int>& arr, int k) {
+//          n=arr.size();
+//          memset(t,-1,sizeof(t));
+//         return solve(0,arr,k);
+//     }
+// };
+
+
+//Approach-2 (Bottom Up)
+//T.C : O(n*k)
+//S.C : O(n)
+class Solution {
+public:
+    int maxSumAfterPartitioning(vector<int>& arr, int k) {
+        int n = arr.size();
+        vector<int> t(n + 1, 0);   // t[n] = 0 (base case: array khatam)
+
+        // i ko n-1 se 0 tak chalao — piche se aage
+        for (int i = n - 1; i >= 0; i--) {
+            int curr_max = -1;
+            int result = 0;
+
+            // yeh inner loop bilkul same hai jo top-down mein tha
+            for (int j = i; j < n && j - i + 1 <= k; j++) {
+                curr_max = max(curr_max, arr[j]);
+                result = max(result, (j - i + 1) * curr_max + t[j + 1]);
+            }
+
+            t[i] = result;
+        }
+
+        return t[0];
+    }
+};
