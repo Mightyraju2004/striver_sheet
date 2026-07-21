@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int subarraySum(vector<int>& nums, int k) {
+
+        int n=nums.size();
+        unordered_map<int,int>mp;//map mp which stores cumulative sum and its count(mp[key]=value)
+        mp.insert({0,1});//start cumulative sum with 0{take example of [-1,1]}
+        int cumsum=0,ans=0;
+
+        for(int i=0;i<n;i++){
+        cumsum+=nums[i];
+        int required_sum=cumsum-k;
+        if(mp.find(required_sum)!=mp.end()) ans += mp[required_sum];//find function searches the key exist or not in map
+        mp[cumsum]++;
+        }
+        
+        return ans;
+    }
+};
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//M-2=Brute force
+/*
+//check all subarrays
+ int currsum=0;
+        int n=nums.size();
+        int cnt=0;
+        for(int i=0;i<n;i++){
+            int sum=0;
+           for(int j=i;j<n;j++){
+              sum+=nums[j];
+              if(sum==k) cnt++;
+           }
+        }
+        return cnt;
+*/
