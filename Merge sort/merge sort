@@ -1,0 +1,40 @@
+class Solution {
+  public:
+  void merge(vector<int>&arr,int l,int mid,int r){
+      int leftsize=mid-l+1;
+      int rightsize=r-mid;
+      
+      vector<int>left(leftsize),right(rightsize);
+      int k=l;
+      for(int i=0;i<leftsize;i++) left[i]=arr[k++];
+      for(int j=0;j<rightsize;j++) right[j]=arr[k++];
+      
+      int i=0,j=0;
+       k=l;
+      
+      while(i<leftsize && j<rightsize){
+          if(left[i]>=right[j]) {
+              arr[k++]=right[j];
+              j++;
+          }
+          else {
+              arr[k++]=left[i];
+              i++;
+          }
+      }
+      
+      while(i<leftsize) arr[k++]=left[i++];
+      while(j<rightsize) arr[k++]=right[j++];
+      
+      
+  }
+    void mergeSort(vector<int>& arr, int l, int r) {
+        if(l>=r) return;
+        // code here
+        int n = arr.size();
+        int mid=l+(r-l)/2;
+        mergeSort(arr,l,mid);//i assume ye mujhe sort karke laayega mere half array ko
+        mergeSort(arr,mid+1,r);//i assume ye mujhe sort karke laayega mere next half array ko
+        merge(arr,l,mid,r);//then i merge them in this way ki sorted fashion mai arrange ho
+    }
+};
