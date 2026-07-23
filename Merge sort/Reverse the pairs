@@ -1,0 +1,75 @@
+// class Solution {
+// public:
+//     int reversePairs(vector<int>& nums) {
+//         int n =nums.size();
+//         int count=0;
+//         for(int i=0;i<n;i++){
+//             for(int j=i+1;j<n;j++){
+//                 if(nums[i]>2*(long long)nums[j]) count++;
+//             }
+//         }
+//         return count;
+//     }
+// };
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// T.C : O(nlogn)
+// S.C : O(n)
+class Solution {
+  public:
+  int ans=0;
+  void countandmerge(vector<int>&nums,int mid,int l,int r){
+    int leftSize=mid-l+1;
+    int rightSize=r-mid;
+    vector<int>left(leftSize),right(rightSize);
+
+    for(int i=0;i<leftSize;i++) left[i]=nums[l+i];
+    for(int i=0;i<rightSize;i++) right[i]=nums[mid+1+i];
+
+    //first count reverse pairs before merging
+    int i=0,j=0;
+    int cnt=0;
+    for (i = 0; i < leftSize; i++) {
+            while (j < rightSize and left[i] > 2LL * right[j]) {
+                j++;
+            }
+            cnt += j;
+        }
+
+    ans += cnt;
+
+        // --- Standard Merge ---
+        i = 0, j = 0;
+        int k = l;
+
+        while (i < leftSize and j < rightSize) {
+            if (left[i] > right[j]) {
+                nums[k++] = right[j++];
+            } else {
+                nums[k++] = left[i++];
+            }
+        }
+
+        while (i < leftSize) {
+            nums[k++] = left[i++];
+        }
+
+        while (j < rightSize) {
+            nums[k++] = right[j++];
+        }
+  }
+
+  void mergesort(vector<int>&nums,int l,int r){
+    if(l>=r) return ;
+    int mid=l+(r-l)/2;
+
+    mergesort(nums,l,mid);
+    mergesort(nums,mid+1,r);
+    countandmerge(nums,mid,l,r);
+  }
+
+    int reversePairs(vector<int>& nums) {
+        int n =nums.size();
+        mergesort(nums,0,n-1);
+        return ans;
+    }
+};
