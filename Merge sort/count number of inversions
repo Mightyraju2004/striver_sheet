@@ -1,0 +1,64 @@
+// T.C : O(n log n)
+// S.C : O(n)
+class Solution {
+  public:
+    int ans = 0;
+
+    void countandmerge(vector<int>& arr, int mid, int l, int r) {
+        int leftSize = mid - l + 1;
+        int rightSize = r - mid;
+        vector<int> left(leftSize), right(rightSize);
+
+        for (int i = 0; i < leftSize; i++) left[i] = arr[l + i];
+        for (int i = 0; i < rightSize; i++) right[i] = arr[mid + 1 + i];
+
+        // --- Counting Inversions ---
+        int i = 0, j = 0;
+        int cnt = 0;
+        for (i = 0; i < leftSize; i++) {
+            while (j < rightSize && left[i] > right[j]) {
+                j++;
+            }
+            cnt += j;
+        }
+
+        ans += cnt;
+
+        // --- Standard Merge ---
+        i = 0, j = 0;
+        int k = l;
+
+        while (i < leftSize && j < rightSize) {
+            if (left[i] > right[j]) {
+                arr[k++] = right[j++];
+            } else {
+                arr[k++] = left[i++];
+            }
+        }
+
+        while (i < leftSize) {
+            arr[k++] = left[i++];
+        }
+
+        while (j < rightSize) {
+            arr[k++] = right[j++];
+        }
+    }
+
+    void mergesort(vector<int>& arr, int l, int r) {
+        if (l >= r) return;
+        int mid = l + (r - l) / 2;
+
+        mergesort(arr, l, mid);
+        mergesort(arr, mid + 1, r);
+        countandmerge(arr, mid, l, r);
+    }
+
+    int inversionCount(vector<int> &arr) {
+        int n = arr.size();
+        if (n == 0) return 0;
+
+        mergesort(arr, 0, n - 1);
+        return ans;
+    }
+};
