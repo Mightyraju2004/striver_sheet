@@ -1,0 +1,25 @@
+class Solution {
+  public:
+  vector<vector<int>>ans;
+  int n;
+ void solve(vector<int>&temp,vector<int>&arr,int i){
+     if(i>=n){
+         ans.push_back(temp);
+         return;
+     }
+     
+     temp.push_back(arr[i]);//tqake
+     solve(temp,arr,i+1);//explore
+     temp.pop_back();//backtrack
+     
+     //not take
+     solve(temp,arr,i+1);//explore
+ }
+    vector<vector<int>> subsets(vector<int>& arr) {
+        // code here
+        n=arr.size();
+        vector<int>temp;
+        solve(temp,arr,0);
+        return ans;
+    }
+};
