@@ -1,0 +1,63 @@
+ # find the number of valid strings of length N formed using the alphabet {a, b, c} such that:Every character (a,b, and c) appears at least once.The substring ab does not appear anywhere in the string.
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+// Helper Function: String poori banne ke baad check karega ki a, b, c teeno hain ya nahi
+bool isValid(const string& str) {
+    bool has_a = false, has_b = false, has_c = false;
+    
+    for (char ch : str) {
+        if (ch == 'a') has_a = true;
+        if (ch == 'b') has_b = true;
+        if (ch == 'c') has_c = true;
+    }
+    
+    return (has_a && has_b && has_c);
+}
+
+// Pure Recursion Function
+int generateStrings(string current, int N) {
+    // Base Case: String ki length N ho gayi
+    if (current.length() == N) {
+        if (isValid(current)) {
+            return 1;
+        }
+        return 0;
+    }
+
+    int count = 0;
+    
+    
+
+    // Call 1: 'a' add karo
+    count += generateStrings(current + 'a', N);
+
+    // Call 2: 'b' add karo (Sirf tabhi jab pichla char 'a' na ho)
+    if (current.empty() || current.back() != 'a') {
+        count += generateStrings(current + 'b', N);
+    }
+
+    // Call 3: 'c' add karo
+    count += generateStrings(current + 'c', N);
+
+    return count;
+}
+
+int main() {
+    int N;
+    
+    // SIRF N INPUT HOGA
+    cin >> N;
+
+    // Function call starting with empty string ""
+    int ans = generateStrings("", N);
+    
+    cout << ans << endl;
+
+    return 0;
+}
+/*
+1. Recursive Tree OperationsHar step (index) par aap 3 choices explore kar rahe hain ('a', 'b', 'c').Length 1 par 3 branches hongi.Length 2 par 3 times 3 = 9 branches hongi (minus pruned "ab" branches).Length N tak recursion ki depth jayegi.Is decision tree me total leaf nodes (jahan length N poori hoti hai) around $O(3^N)$ honge.2. Base Case Work (isValid & String Copying)Jab base case hit hota hai (current.length() == N):String Copying: C++ me string current value pass ho rahi hai (not reference), toh string copy hoti hai jisse $O(N)$ lagta hai.isValid(current) loop: Iss function me ???? length $N$ ki string par loop chalta hai, jo fir se $O(N)$ time leta hai.Final Time Complexity$$\text{Time Complexity} = {O(N.3^N)}(Practically, "ab" pruning ki wajah se states $3^N$ se thodi kam $(r^N \approx 2.618^N)$ banti hain, lekin Big-O notation me isko $O(N \cdot 3^N)$ hi likha jayega).Space Complexity (SC)Recursion Stack Space: Depth $N$ tak jayegi $\to O(N)$.String Allocation: Path store karne ke liye string length N use hoti hai $\to O(N)$.$$\text{Space Complexity} = {O(N)}
+*/
