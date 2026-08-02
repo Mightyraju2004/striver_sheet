@@ -1,0 +1,24 @@
+class Solution {
+  public:
+  vector<string>ans;
+  void solve(string temp,int i){
+      if(i==0){
+          ans.push_back(temp);
+          return;
+      }
+      
+      temp.push_back('0');//take
+      solve(temp,i-1);//explore in that dirn
+      temp.pop_back();//backtrack
+      
+      temp.push_back('1');//take
+      solve(temp,i-1);//explore in that dirn
+      
+  }
+    vector<string> binstr(int n) {
+        // code here
+        string temp="";
+        solve(temp,n);
+        return ans;
+    }
+};
