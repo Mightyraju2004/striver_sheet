@@ -1,0 +1,35 @@
+class Solution {
+public:
+    // dp[index][current_sum]
+    // Constraints: size <= 200, sum <= 10000
+    int dp[201][10005]; 
+
+    bool solve(vector<int>& arr, int i, int current_sum, int target) {
+        // Base Case 1: Target sum achieved
+        if (current_sum == target) return true;
+        
+        // Base Case 2: Out of bounds or current sum exceeded target
+        if (i >= arr.size() || current_sum > target) return false;
+
+        // Check if this sub-problem has already been solved
+        if (dp[i][current_sum] != -1) {
+            return dp[i][current_sum];
+        }
+        //we have two choices take or not take
+        // Choice 1: Take the current element
+        bool take = solve(arr, i + 1, current_sum + arr[i], target);
+        
+        // Choice 2: Skip the current element
+        bool skip = solve(arr, i + 1, current_sum, target);
+
+        // Store the result in the dp table and return
+        return dp[i][current_sum] = (take || skip);
+    }
+
+    bool isSubsetSum(vector<int>& arr, int sum) {
+        // Initialize the dp array with -1
+        memset(dp, -1, sizeof(dp));
+        
+        return solve(arr, 0, 0, sum);
+    }
+};
